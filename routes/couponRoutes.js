@@ -62,6 +62,25 @@ const getTimeRemaining = async (ip, cookieId) => {
   return Math.ceil((cooldownMs - elapsedTime) / 60000); // Return minutes remaining
 };
 
+// Add this function after your existing imports
+const checkAndResetCoupons = async () => {
+  const totalCoupons = await Coupon.count();
+  const claimedCoupons = await Coupon.count({ where: { is_claimed: true } });
+  
+  if (totalCoupons === claimedCoupons) {
+    await Coupon.update(
+      { 
+        is_claimed: false,
+        claimed_at: null 
+      },
+      { where: {} }
+    );
+    await Claim.destroy({ where: {} });
+    return true;
+  }
+  return false;
+};
+
 // Claim a coupon
 router.post('/claim', async (req, res) => {
   try {
@@ -129,6 +148,11 @@ router.post('/claim', async (req, res) => {
       message: 'An error occurred while claiming the coupon.' 
     });
   }
+  
+  const allCouponsUsed = await checkAndResetCoupons();
+  if (allCouponsUsed) {
+    console.log('All coupons were claimed - System has been reset');
+  }
 });
 
 // Check claim status
@@ -192,4 +216,4 @@ router.get('/history', async (req, res) => {
   }
 });
 
-module.exports = router; 
+module.exports = router;
