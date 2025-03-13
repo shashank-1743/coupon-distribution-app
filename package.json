@@ -7,7 +7,8 @@
     "start": "node server.js",
     "dev": "nodemon server.js",
     "build": "npm install",
-    "seed": "node seedCoupons.js"
+    "seed": "node seedCoupons.js",
+    "seed:production": "set NODE_ENV=production&& node seedProduction.js"
   },
   "engines": {
     "node": ">=14.0.0",

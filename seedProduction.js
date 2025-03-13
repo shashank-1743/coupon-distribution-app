@@ -1,6 +1,4 @@
-require('dotenv').config();
-process.env.NODE_ENV = 'production'; // Force production environment to use Supabase config
-
+require('dotenv').config({ path: '.env.production' });
 const { Coupon, sequelize } = require('./models');
 
 const generateCouponCode = () => {
@@ -12,15 +10,17 @@ const generateCouponCode = () => {
   return result;
 };
 
-const seedCoupons = async () => {
+const seedProductionCoupons = async () => {
   try {
-    console.log('Connecting to Supabase database...');
-    await sequelize.authenticate();
-    console.log('Connection established successfully.');
+    // Only create tables if they don't exist
+    await sequelize.sync();
     
-    // Sync models with database
-    await sequelize.sync({ force: true });
-    console.log('Database synced');
+    // Check if coupons already exist
+    const existingCoupons = await Coupon.count();
+    if (existingCoupons > 0) {
+      console.log('Coupons already exist, skipping seed');
+      process.exit(0);
+    }
     
     // Create 20 sample coupons
     const coupons = [];
@@ -32,13 +32,13 @@ const seedCoupons = async () => {
     }
     
     await Coupon.bulkCreate(coupons);
-    console.log('Coupons seeded successfully');
+    console.log('Production database seeded successfully');
     
     process.exit(0);
   } catch (error) {
-    console.error('Error seeding coupons:', error);
+    console.error('Error seeding production database:', error);
     process.exit(1);
   }
 };
 
-seedCoupons(); 
+seedProductionCoupons();
