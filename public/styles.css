@@ -1,0 +1,72 @@
+body {
+  background-color: #f8f9fa;
+  font-family: 'Arial', sans-serif;
+}
+
+.card {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 50px;
+}
+
+.card-header {
+  padding: 20px;
+}
+
+.card-body {
+  padding: 30px;
+}
+
+#coupon-code {
+  font-family: 'Courier New', monospace;
+  letter-spacing: 2px;
+  font-weight: bold;
+  background-color: #f8f9fa;
+  padding: 15px;
+  border-radius: 5px;
+  border: 2px dashed #28a745;
+}
+
+#countdown {
+  font-family: 'Courier New', monospace;
+  font-weight: bold;
+}
+
+.btn {
+  padding: 10px 25px;
+  border-radius: 5px;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.btn-primary:hover {
+  background-color: #0069d9;
+  border-color: #0062cc;
+}
+
+.alert {
+  border-radius: 5px;
+  padding: 15px;
+}
+
+/* History table styles */
+.table {
+  margin-bottom: 0;
+}
+
+.table th, .table td {
+  vertical-align: middle;
+}
+
+#history-container {
+  animation: fadeIn 0.5s;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+} 
